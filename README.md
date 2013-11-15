@@ -77,6 +77,31 @@ UTF-8 is the preferred source file encoding.
 <a name="module_imports"/>
 ## Module Imports
 
+When create a new AngularJS module, all required modules should be on a separate line unless there is no dependencies at all.
+
+```coffeescript
+angular.module("myApp", [
+  "Mac"
+  "myAppModule1"
+])
+
+angular.module("myAppNoDependency", [])
+```
+
+When creating components with dependencies, all required dependencies should be on a separate line.
+
+```coffeescript
+angular.module("myApp").directive [
+  "someService"
+  "someUtil"
+  (
+    someService
+    someUtil
+  ) ->
+    # Directive definition
+]
+```
+
 If using a module system (CommonJS Modules, AMD, etc.), `require` statements should be placed on separate lines.
 
 ```coffeescript
@@ -108,7 +133,21 @@ Avoid extraneous whitespace in the following situations:
        console.log x , y # No
     ```
 
-Additional recommendations:
+- When creating an object with multiple key/value pairs,
+
+    ```coffeescript
+    # Yes
+    test =
+      key1:         "test"
+      key2:         "somethingVariable"
+      aVeryLongKey: "hello"
+
+    # No
+    test =
+      key1: "test"
+      key2: "somethingVariable"
+      aVeryLongKey: "hello"
+    ```
 
 - Always surround these binary operators with a **single space** on either side
 
@@ -121,23 +160,22 @@ Additional recommendations:
            test: (param=null) -> # No
            ```
 
+        - If there are multiple assignments in adjacent lines, align the assignment operator
+           ```coffeescript
+            # Yes
+            test1                  = "helloWorld"
+            test2                  = "foobar"
+            someRandomLongVariable = "blah"
+
+            # No
+            test1 = "something"
+            someLongVariable = "nothing"
+            fooBar = "123"
+           ```
+
     - augmented assignment: `+=`, `-=`, etc.
     - comparisons: `==`, `<`, `>`, `<=`, `>=`, `unless`, etc.
     - arithmetic operators: `+`, `-`, `*`, `/`, etc.
-
-    - _(Do not use more than one space around these operators)_
-
-        ```coffeescript
-           # Yes
-           x = 1
-           y = 1
-           fooBar = 3
-
-           # No
-           x      = 1
-           y      = 1
-           fooBar = 3
-        ```
 
 <a name="comments"/>
 ## Comments
@@ -191,6 +229,22 @@ However, inline comments can be useful in certain scenarios:
 ```coffeescript
   # Yes
   x = x + 1 # Compensate for border
+```
+
+<a name="documentation"/>
+### Documentation
+
+When documenting a module, functions or variables, follow (jsdoc)[http://usejsdoc.org/] or (chalkboard)[http://adrianlee44.github.io/chalkboard/].
+
+```coffeescript
+###
+  @chalk
+  @name Some module name
+  @description
+  A short description for the module
+  @param {String} hi A message
+  @returns {String} Bye
+###
 ```
 
 <a name="naming_conventions"/>
